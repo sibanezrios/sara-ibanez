@@ -1158,7 +1158,7 @@ function Footer({ lang }: { lang: Lang }) {
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLang] = useState<Lang>("es");
 
   return (
     <div className="min-h-screen bg-[#030b18] overflow-x-hidden">
