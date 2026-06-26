@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import emailjs from "@emailjs/browser";
 import {
   Menu,
   X,
@@ -24,8 +25,19 @@ import {
   RefreshCw,
   Phone,
   Languages,
+  Send,
+  CheckCircle,
+  AlertCircle,
+  ExternalLink,
+  Monitor,
+  Smartphone,
+  Database,
 } from "lucide-react";
 import saraPhoto from "../assets/sara.png";
+
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID ?? "service_sara";
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? "template_contact";
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY ?? "";
 
 const WHATSAPP_NUMBER = "573024662900";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
@@ -40,6 +52,7 @@ const translations = {
       about: "About",
       services: "Services",
       process: "Process",
+      portfolio: "Portfolio",
       contact: "Contact",
       whatsapp: "WhatsApp",
       cta: "Book a Consultation",
@@ -204,6 +217,51 @@ const translations = {
         "Process Automation",
         "Digital Transformation",
       ],
+      form: {
+        name: "Full Name",
+        email: "Email Address",
+        company: "Company (optional)",
+        message: "Tell me about your project",
+        submit: "Send Message",
+        sending: "Sending…",
+        successTitle: "Message sent!",
+        successBody: "Thank you, I'll get back to you within 24 hours.",
+        errorTitle: "Something went wrong",
+        errorBody: "Please try again or reach me on WhatsApp.",
+        orWhatsapp: "Or reach me directly on WhatsApp",
+      },
+    },
+    portfolio: {
+      label: "Portfolio",
+      title1: "Real Projects,",
+      title2: "Real Impact",
+      sub: "A selection of digital products and platforms built from the ground up.",
+      items: [
+        {
+          tag: "Platform · Automation",
+          title: "Clean & Shiny — Operations Platform",
+          desc: "Full-stack platform that automated 90%+ of service assignments, replacing a fully manual process. Built with React, Node.js, and a real-time matching engine.",
+          stack: ["React", "Node.js", "PostgreSQL", "WebSockets"],
+          icon: "monitor",
+          metrics: ["90% automation", "Real-time", "Uber-style logic"],
+        },
+        {
+          tag: "AI · CRM",
+          title: "AI-Powered CRM & Sales Automation",
+          desc: "Custom CRM with AI qualification, automated WhatsApp follow-ups, and a sales pipeline dashboard. Tripled client response rates.",
+          stack: ["React", "Python", "OpenAI", "WhatsApp API"],
+          icon: "bot",
+          metrics: ["3× response rate", "AI-qualified leads", "Auto follow-up"],
+        },
+        {
+          tag: "Web App · Healthcare",
+          title: "Patient Scheduling System",
+          desc: "Custom scheduling and patient management system for a healthcare clinic. Reduced administrative workload by 60%.",
+          stack: ["React", "Node.js", "PostgreSQL", "Calendar API"],
+          icon: "database",
+          metrics: ["60% less admin work", "HIPAA-aligned", "Mobile-ready"],
+        },
+      ],
     },
     footer: {
       tagline: "Software Developer | AI Automation Engineer | Technology Consultant",
@@ -215,6 +273,7 @@ const translations = {
       about: "Acerca de",
       services: "Servicios",
       process: "Proceso",
+      portfolio: "Portafolio",
       contact: "Contacto",
       whatsapp: "WhatsApp",
       cta: "Agendar Consulta",
@@ -362,6 +421,38 @@ const translations = {
         },
       ],
     },
+    portfolio: {
+      label: "Portafolio",
+      title1: "Proyectos Reales,",
+      title2: "Impacto Real",
+      sub: "Una selección de productos digitales y plataformas construidos desde cero.",
+      items: [
+        {
+          tag: "Plataforma · Automatización",
+          title: "Clean & Shiny — Plataforma Operativa",
+          desc: "Plataforma full-stack que automatizó más del 90% de las asignaciones de servicios, reemplazando un proceso completamente manual. Construida con React, Node.js y un motor de asignación en tiempo real.",
+          stack: ["React", "Node.js", "PostgreSQL", "WebSockets"],
+          icon: "monitor",
+          metrics: ["90% automatización", "Tiempo real", "Lógica estilo Uber"],
+        },
+        {
+          tag: "IA · CRM",
+          title: "CRM con IA y Automatización de Ventas",
+          desc: "CRM personalizado con calificación por IA, seguimientos automáticos por WhatsApp y un panel de pipeline de ventas. Triplicó la tasa de respuesta a clientes.",
+          stack: ["React", "Python", "OpenAI", "WhatsApp API"],
+          icon: "bot",
+          metrics: ["3× tasa de respuesta", "Leads calificados por IA", "Seguimiento automático"],
+        },
+        {
+          tag: "App Web · Salud",
+          title: "Sistema de Agendamiento de Pacientes",
+          desc: "Sistema personalizado de agendamiento y gestión de pacientes para una clínica de salud. Redujo la carga administrativa en un 60%.",
+          stack: ["React", "Node.js", "PostgreSQL", "Calendar API"],
+          icon: "database",
+          metrics: ["60% menos trabajo admin", "Alineado con privacidad", "Mobile-ready"],
+        },
+      ],
+    },
     contact: {
       label: "Hablemos",
       title1: "Construyamos la Tecnología",
@@ -379,6 +470,19 @@ const translations = {
         "Automatización de Procesos",
         "Transformación Digital",
       ],
+      form: {
+        name: "Nombre completo",
+        email: "Correo electrónico",
+        company: "Empresa (opcional)",
+        message: "Cuéntame sobre tu proyecto",
+        submit: "Enviar mensaje",
+        sending: "Enviando…",
+        successTitle: "¡Mensaje enviado!",
+        successBody: "Gracias, me pondré en contacto contigo en menos de 24 horas.",
+        errorTitle: "Algo salió mal",
+        errorBody: "Por favor intenta de nuevo o contáctame por WhatsApp.",
+        orWhatsapp: "O contáctame directamente por WhatsApp",
+      },
     },
     footer: {
       tagline: "Desarrolladora de Software | Ingeniera de Automatización IA | Consultora Tecnológica",
@@ -546,6 +650,7 @@ function Navbar({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
     { label: t.about, href: "#about" },
     { label: t.services, href: "#services" },
     { label: t.process, href: "#process" },
+    { label: t.portfolio, href: "#portfolio" },
     { label: t.contact, href: "#contact" },
   ];
 
@@ -1066,43 +1171,264 @@ function Testimonials({ lang }: { lang: Lang }) {
   );
 }
 
-// ─── Contact ──────────────────────────────────────────────────────────────────
-function Contact({ lang }: { lang: Lang }) {
-  const t = translations[lang].contact;
+// ─── Portfolio ────────────────────────────────────────────────────────────────
+const portfolioIconMap: Record<string, React.FC<{ size: number; className: string }>> = {
+  monitor: Monitor,
+  bot: Bot,
+  database: Database,
+};
+
+function Portfolio({ lang }: { lang: Lang }) {
+  const t = translations[lang].portfolio;
   return (
-    <Section id="contact" className="bg-[#050e1c] relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-blue-700/10 blur-[120px] pointer-events-none" />
-      <div className="relative max-w-3xl mx-auto text-center">
+    <Section id="portfolio" className="bg-[#030b18]">
+      <div className="text-center max-w-2xl mx-auto mb-16">
         <SectionLabel>{t.label}</SectionLabel>
         <SectionHeading>
           {t.title1}{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">{t.title2}</span>
         </SectionHeading>
-        <p className="text-slate-400 text-lg mt-6 mb-10 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
+        <p className="text-slate-400 text-lg mt-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
+      </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-          <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-base transition-all duration-200 shadow-xl shadow-blue-600/25 hover:-translate-y-0.5"
-            style={{ fontFamily: "'DM Sans', sans-serif" }}>
-            {t.cta1}
-            <ArrowRight size={18} />
-          </a>
+      <div className="grid md:grid-cols-3 gap-6">
+        {t.items.map((project, idx) => {
+          const Icon = portfolioIconMap[project.icon] ?? Monitor;
+          const glows = ["from-blue-500/10", "from-cyan-500/10", "from-violet-500/10"];
+          const borders = ["border-blue-500/20", "border-cyan-500/20", "border-violet-500/20"];
+          const icons = ["text-blue-400", "text-cyan-400", "text-violet-400"];
+          const bgs = ["bg-blue-500/8", "bg-cyan-500/8", "bg-violet-500/8"];
+          return (
+            <div key={project.title}
+              className={`group relative rounded-2xl border ${borders[idx]} bg-[#071020] p-7 flex flex-col gap-5 hover:bg-[#0a1628] hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:shadow-blue-950/40`}>
+              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${glows[idx]} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+              <div className="relative">
+                {/* Header */}
+                <div className="flex items-start justify-between mb-4">
+                  <div className={`w-12 h-12 rounded-xl ${bgs[idx]} border ${borders[idx]} flex items-center justify-center`}>
+                    <Icon size={22} className={icons[idx]} />
+                  </div>
+                  <span className={`text-[10px] font-mono ${icons[idx]} px-2 py-0.5 rounded border ${borders[idx]} bg-transparent opacity-80 tracking-widest uppercase`}>
+                    {project.tag}
+                  </span>
+                </div>
+
+                <h3 className="text-lg font-bold text-white mb-2" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
+                  {project.title}
+                </h3>
+                <p className="text-slate-400 text-sm leading-relaxed mb-5" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  {project.desc}
+                </p>
+
+                {/* Metrics */}
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {project.metrics.map((m) => (
+                    <span key={m} className="flex items-center gap-1 text-[10px] font-mono text-green-400 px-2 py-0.5 rounded bg-green-500/8 border border-green-500/15">
+                      <span className="w-1 h-1 rounded-full bg-green-400" />
+                      {m}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Stack */}
+                <div className="pt-4 border-t border-blue-500/10 flex flex-wrap gap-1.5">
+                  {project.stack.map((tech) => (
+                    <span key={tech} className="text-[10px] px-2 py-0.5 rounded bg-[#0c1a30] border border-blue-500/15 text-slate-400 font-mono">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </Section>
+  );
+}
+
+// ─── Contact ──────────────────────────────────────────────────────────────────
+type FormState = "idle" | "sending" | "success" | "error";
+
+function ContactForm({ lang }: { lang: Lang }) {
+  const tf = translations[lang].contact.form;
+  const [formState, setFormState] = useState<FormState>("idle");
+  const [values, setValues] = useState({ name: "", email: "", company: "", message: "" });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormState("sending");
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: values.name,
+          from_email: values.email,
+          company: values.company,
+          message: values.message,
+          to_email: "ibanezsara35@gmail.com",
+        },
+        EMAILJS_PUBLIC_KEY
+      );
+      setFormState("success");
+      setValues({ name: "", email: "", company: "", message: "" });
+    } catch {
+      setFormState("error");
+    }
+  };
+
+  if (formState === "success") {
+    return (
+      <div className="rounded-2xl border border-green-500/25 bg-green-500/6 p-10 text-center">
+        <CheckCircle size={40} className="text-green-400 mx-auto mb-4" />
+        <h3 className="text-white text-xl font-bold mb-2" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
+          {tf.successTitle}
+        </h3>
+        <p className="text-slate-400 text-sm" style={{ fontFamily: "'DM Sans', sans-serif" }}>{tf.successBody}</p>
+        <button
+          onClick={() => setFormState("idle")}
+          className="mt-6 text-blue-400 text-sm underline underline-offset-2 hover:text-blue-300 transition-colors"
+          style={{ fontFamily: "'DM Sans', sans-serif" }}>
+          ← {lang === "en" ? "Send another" : "Enviar otro"}
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-blue-500/20 bg-[#071020] p-8 flex flex-col gap-5">
+      {formState === "error" && (
+        <div className="flex items-start gap-3 p-4 rounded-xl border border-red-500/25 bg-red-500/6">
+          <AlertCircle size={18} className="text-red-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-red-300 text-sm font-semibold" style={{ fontFamily: "'DM Sans', sans-serif" }}>{tf.errorTitle}</p>
+            <p className="text-red-400/80 text-xs mt-0.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>{tf.errorBody}</p>
+          </div>
+        </div>
+      )}
+
+      <div className="grid sm:grid-cols-2 gap-5">
+        <div className="flex flex-col gap-1.5">
+          <label className="text-xs font-mono text-slate-500 tracking-widest uppercase">{tf.name}</label>
+          <input
+            type="text"
+            name="name"
+            required
+            value={values.name}
+            onChange={handleChange}
+            className="px-4 py-3 rounded-xl border border-blue-500/15 bg-[#0c1a30] text-white placeholder-slate-600 text-sm focus:outline-none focus:border-blue-500/40 focus:bg-[#0f2040] transition-all"
+            style={{ fontFamily: "'DM Sans', sans-serif" }}
+            placeholder="Sara Ibáñez"
+          />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label className="text-xs font-mono text-slate-500 tracking-widest uppercase">{tf.email}</label>
+          <input
+            type="email"
+            name="email"
+            required
+            value={values.email}
+            onChange={handleChange}
+            className="px-4 py-3 rounded-xl border border-blue-500/15 bg-[#0c1a30] text-white placeholder-slate-600 text-sm focus:outline-none focus:border-blue-500/40 focus:bg-[#0f2040] transition-all"
+            style={{ fontFamily: "'DM Sans', sans-serif" }}
+            placeholder="sara@empresa.com"
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <label className="text-xs font-mono text-slate-500 tracking-widest uppercase">{tf.company}</label>
+        <input
+          type="text"
+          name="company"
+          value={values.company}
+          onChange={handleChange}
+          className="px-4 py-3 rounded-xl border border-blue-500/15 bg-[#0c1a30] text-white placeholder-slate-600 text-sm focus:outline-none focus:border-blue-500/40 focus:bg-[#0f2040] transition-all"
+          style={{ fontFamily: "'DM Sans', sans-serif" }}
+          placeholder="Clean & Shiny"
+        />
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <label className="text-xs font-mono text-slate-500 tracking-widest uppercase">{tf.message}</label>
+        <textarea
+          name="message"
+          required
+          rows={5}
+          value={values.message}
+          onChange={handleChange}
+          className="px-4 py-3 rounded-xl border border-blue-500/15 bg-[#0c1a30] text-white placeholder-slate-600 text-sm focus:outline-none focus:border-blue-500/40 focus:bg-[#0f2040] transition-all resize-none"
+          style={{ fontFamily: "'DM Sans', sans-serif" }}
+          placeholder={lang === "en" ? "I need a CRM system that…" : "Necesito un sistema CRM que…"}
+        />
+      </div>
+
+      <button
+        type="submit"
+        disabled={formState === "sending"}
+        className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg shadow-blue-600/20 hover:-translate-y-0.5"
+        style={{ fontFamily: "'DM Sans', sans-serif" }}>
+        {formState === "sending" ? tf.sending : tf.submit}
+        {formState !== "sending" && <Send size={15} />}
+      </button>
+    </form>
+  );
+}
+
+function Contact({ lang }: { lang: Lang }) {
+  const t = translations[lang].contact;
+  return (
+    <Section id="contact" className="bg-[#050e1c] relative overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-blue-700/10 blur-[120px] pointer-events-none" />
+      <div className="relative max-w-5xl mx-auto">
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <SectionLabel>{t.label}</SectionLabel>
+          <SectionHeading>
+            {t.title1}{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">{t.title2}</span>
+          </SectionHeading>
+          <p className="text-slate-400 text-lg mt-6 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
         </div>
 
-        <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-slate-400 hover:text-green-400 transition-colors text-sm"
-          style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-          <Phone size={14} />
-          {WHATSAPP_DISPLAY}
-        </a>
+        <div className="grid lg:grid-cols-[1fr_360px] gap-10 items-start">
+          {/* Form */}
+          <ContactForm lang={lang} />
 
-        <div className="mt-12 flex flex-wrap justify-center gap-2">
-          {t.tags.map((tag) => (
-            <span key={tag} className="px-3 py-1 rounded-full border border-blue-500/15 bg-blue-500/6 text-slate-400 text-xs"
-              style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              {tag}
-            </span>
-          ))}
+          {/* Right column */}
+          <div className="flex flex-col gap-6">
+            {/* WhatsApp CTA */}
+            <div className="rounded-2xl border border-green-500/20 bg-[#071020] p-6">
+              <p className="text-xs font-mono text-slate-500 tracking-widest uppercase mb-4">{t.form.orWhatsapp}</p>
+              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-3 px-5 py-3.5 rounded-xl border border-green-500/25 bg-green-500/8 hover:bg-green-500/15 text-green-400 font-semibold text-sm transition-all"
+                style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                <MessageCircle size={18} />
+                {WHATSAPP_DISPLAY}
+                <ExternalLink size={13} className="ml-auto opacity-60" />
+              </a>
+              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center justify-center w-full gap-2 px-5 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-all hover:-translate-y-0.5"
+                style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                {t.cta1}
+                <ArrowRight size={15} />
+              </a>
+            </div>
+
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2">
+              {t.tags.map((tag) => (
+                <span key={tag} className="px-3 py-1 rounded-full border border-blue-500/15 bg-blue-500/6 text-slate-400 text-xs"
+                  style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </Section>
@@ -1117,6 +1443,7 @@ function Footer({ lang }: { lang: Lang }) {
     { label: nav.about, href: "#about" },
     { label: nav.services, href: "#services" },
     { label: nav.process, href: "#process" },
+    { label: nav.portfolio, href: "#portfolio" },
     { label: nav.contact, href: "#contact" },
   ];
   return (
@@ -1176,6 +1503,8 @@ export default function App() {
       <Services lang={lang} />
       <Benefits lang={lang} />
       <Process lang={lang} />
+      <Testimonials lang={lang} />
+      <Portfolio lang={lang} />
       <Contact lang={lang} />
       <Footer lang={lang} />
     </div>
