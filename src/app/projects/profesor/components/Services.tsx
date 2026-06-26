@@ -46,9 +46,10 @@ export function Services() {
           {services.map((service, index) => (
             <div key={index} className={`relative rounded-xl p-8 border transition-all hover:shadow-md ${
               service.highlighted
-                ? 'bg-gray-900 text-white border-gray-900'
+                ? 'text-white border-transparent'
                 : 'bg-white text-gray-900 border-gray-100 shadow-sm'
-            }`}>
+            }`}
+            style={service.highlighted ? { background: "radial-gradient(ellipse at 60% 40%, #3a3a3c 0%, #1c1c1e 70%)" } : {}}>
               {service.highlighted && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <span className="bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
