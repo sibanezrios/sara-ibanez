@@ -10,21 +10,21 @@ export function About() {
   ];
 
   return (
-    <section id="sobre-mi" className="py-20 bg-gray-950">
+    <section id="sobre-mi" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-4xl mb-6 text-white font-bold tracking-tight">Sobre Mí</h2>
-            <p className="text-lg text-gray-400 mb-6">
+            <h2 className="text-4xl mb-6 text-gray-900 font-bold tracking-tight">Sobre Mí</h2>
+            <p className="text-lg text-gray-600 mb-6">
               Hola, soy profesor de alemán con pasión por la enseñanza y más de una década de experiencia
               ayudando a estudiantes de todos los niveles a alcanzar sus objetivos lingüísticos.
             </p>
-            <p className="text-lg text-gray-400 mb-6">
+            <p className="text-lg text-gray-600 mb-6">
               Nací y crecí en Berlín, y me mudé a España hace varios años para compartir mi lengua materna
               y cultura. Cuento con certificaciones pedagógicas y experiencia en preparación para exámenes
               oficiales como TestDaF, Goethe-Zertifikat y telc.
             </p>
-            <p className="text-lg text-gray-400">
+            <p className="text-lg text-gray-600">
               Mi metodología se centra en la comunicación práctica, combinando gramática, vocabulario y
               aspectos culturales para un aprendizaje completo y efectivo.
             </p>
@@ -34,7 +34,7 @@ export function About() {
             <ImageWithFallback
               src="https://images.unsplash.com/photo-1758685848147-e1e149bf2603?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjB0ZWFjaGVyJTIwZGVza3xlbnwxfHx8fDE3ODI0MTY4NjN8MA&ixlib=rb-4.1.0&q=80&w=1080"
               alt="Espacio de trabajo profesional"
-              className="w-full h-[500px] object-cover rounded-xl"
+              className="w-full h-[500px] object-cover rounded-xl shadow-lg"
             />
           </div>
         </div>
@@ -43,10 +43,10 @@ export function About() {
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
-              <div key={index} className="rounded-xl border border-white/10 bg-white/5 p-6 hover:bg-white/8 transition-colors">
-                <Icon className="h-10 w-10 mb-4 text-white" />
-                <h3 className="text-lg font-semibold mb-2 text-white">{feature.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{feature.description}</p>
+              <div key={index} className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+                <Icon className="h-10 w-10 mb-4 text-blue-600" />
+                <h3 className="text-lg font-semibold mb-2 text-gray-900">{feature.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{feature.description}</p>
               </div>
             );
           })}

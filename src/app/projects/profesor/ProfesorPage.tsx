@@ -14,7 +14,7 @@ export default function ProfesorPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-white">
       {/* Back button — fixed top-left, visible over the dark hero */}
       <Link
         to="/#portfolio"
