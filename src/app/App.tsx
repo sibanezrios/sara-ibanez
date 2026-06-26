@@ -526,7 +526,7 @@ function HeroBackground() {
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = "rgba(59,130,246,0.06)";
+      ctx.strokeStyle = "rgba(255,255,255,0.03)";
       ctx.lineWidth = 1;
       const gs = 60;
       for (let x = 0; x < canvas.width; x += gs) {
@@ -546,20 +546,15 @@ function HeroBackground() {
           const dy = nodes[i].y - nodes[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 160) {
-            ctx.strokeStyle = `rgba(59,130,246,${(1 - dist / 160) * 0.22})`;
-            ctx.lineWidth = 0.8;
+            ctx.strokeStyle = `rgba(255,255,255,${(1 - dist / 160) * 0.08})`;
+            ctx.lineWidth = 0.6;
             ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y); ctx.stroke();
           }
         }
       }
       nodes.forEach((n, i) => {
         const pulse = Math.sin(t * 0.02 + i) * 0.3 + 0.7;
-        const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r * 3);
-        grad.addColorStop(0, `rgba(59,130,246,${0.9 * pulse})`);
-        grad.addColorStop(1, "rgba(59,130,246,0)");
-        ctx.fillStyle = grad;
-        ctx.beginPath(); ctx.arc(n.x, n.y, n.r * 3, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = `rgba(147,197,253,${pulse})`;
+        ctx.fillStyle = `rgba(255,255,255,${0.25 * pulse})`;
         ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
       });
       t++;
@@ -586,21 +581,21 @@ function LangModal({ lang, onSelect, onClose }: { lang: Lang; onSelect: (l: Lang
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={onClose}>
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <div
-        className="relative rounded-2xl border border-blue-500/20 bg-[#071020] shadow-2xl shadow-blue-950/60 p-8 w-full max-w-sm"
+        className="relative rounded-2xl border border-gray-200 bg-white shadow-2xl shadow-gray-200 p-8 w-full max-w-sm"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-500 hover:text-white transition-colors"
+          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
           aria-label="Close"
         >
           <X size={18} />
         </button>
 
         {/* Icon */}
-        <div className="w-12 h-12 rounded-xl bg-blue-600/15 border border-blue-500/25 flex items-center justify-center mb-5">
-          <Languages size={22} className="text-blue-400" />
+        <div className="w-12 h-12 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center mb-5">
+          <Languages size={22} className="text-gray-700" />
         </div>
 
         <h2
@@ -609,7 +604,7 @@ function LangModal({ lang, onSelect, onClose }: { lang: Lang; onSelect: (l: Lang
         >
           {t.title}
         </h2>
-        <p className="text-slate-500 text-sm mb-7" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+        <p className="text-gray-400 text-sm mb-7" style={{ fontFamily: "'DM Sans', sans-serif" }}>
           {t.subtitle}
         </p>
 
@@ -620,8 +615,8 @@ function LangModal({ lang, onSelect, onClose }: { lang: Lang; onSelect: (l: Lang
               onClick={() => { onSelect(l); onClose(); }}
               className={`flex items-center gap-3 w-full px-4 py-3.5 rounded-xl border text-left transition-all duration-200 ${
                 lang === l
-                  ? "border-blue-500/50 bg-blue-600/15 text-white"
-                  : "border-blue-500/10 bg-[#0c1a30] text-slate-300 hover:border-blue-500/25 hover:bg-[#0f2040]"
+                  ? "border-blue-500/50 bg-gray-100 text-white"
+                  : "border-gray-100 bg-gray-100 text-gray-600 hover:border-gray-200 hover:bg-gray-200"
               }`}
               style={{ fontFamily: "'DM Sans', sans-serif" }}
             >
@@ -666,7 +661,7 @@ function Navbar({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
       )}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? "bg-[#030b18]/95 backdrop-blur-md border-b border-blue-500/10 shadow-lg shadow-blue-950/30" : "bg-transparent"
+          scrolled ? "bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm" : "bg-transparent"
         }`}
       >
         <nav className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-16 lg:h-20">
@@ -674,14 +669,14 @@ function Navbar({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
             <img
               src={saraPhoto}
               alt="Sara Ibáñez"
-              className="w-9 h-9 rounded-lg object-cover border border-blue-500/30 bg-[#071020]"
+              className="w-9 h-9 rounded-lg object-cover border border-white/20 bg-white"
               style={{ objectPosition: "50% 18%" }}
             />
             <div>
-              <span className="text-white font-bold text-base tracking-tight" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
+              <span className={`font-bold text-base tracking-tight ${scrolled ? "text-gray-900" : "text-white"}`} style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
                 Sara Ibáñez
               </span>
-              <div className="text-[10px] text-blue-400 font-mono tracking-widest uppercase -mt-0.5">
+              <div className={`text-[10px] font-mono tracking-widest uppercase -mt-0.5 ${scrolled ? "text-gray-400" : "text-white/60"}`}>
                 Tech Consulting
               </div>
             </div>
@@ -690,7 +685,9 @@ function Navbar({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
           <ul className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <li key={item.href}>
-                <a href={item.href} className="text-slate-400 hover:text-white text-sm font-medium transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                <a href={item.href}
+                  className={`text-sm font-medium transition-colors ${scrolled ? "text-gray-600 hover:text-gray-900" : "text-white/70 hover:text-white"}`}
+                  style={{ fontFamily: "'DM Sans', sans-serif" }}>
                   {item.label}
                 </a>
               </li>
@@ -698,10 +695,13 @@ function Navbar({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
           </ul>
 
           <div className="hidden md:flex items-center gap-3">
-            {/* Language toggle */}
             <button
               onClick={() => setLangModal(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-blue-500/20 bg-blue-500/6 text-slate-400 hover:text-white hover:border-blue-500/35 transition-all text-sm"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm transition-all ${
+                scrolled
+                  ? "border-gray-200 text-gray-500 hover:text-gray-900 hover:border-gray-300"
+                  : "border-white/20 text-white/70 hover:text-white hover:border-white/40"
+              }`}
               style={{ fontFamily: "'DM Sans', sans-serif" }}
               aria-label="Change language"
             >
@@ -709,13 +709,13 @@ function Navbar({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
               <span className="font-mono text-xs uppercase tracking-widest">{lang}</span>
             </button>
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm text-slate-300 hover:text-white transition-colors px-3 py-1.5"
+              className={`flex items-center gap-2 text-sm transition-colors px-3 py-1.5 ${scrolled ? "text-gray-600 hover:text-gray-900" : "text-white/70 hover:text-white"}`}
               style={{ fontFamily: "'DM Sans', sans-serif" }}>
               <MessageCircle size={15} />
               {t.whatsapp}
             </a>
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-all shadow-lg shadow-blue-600/20"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-gray-900 hover:bg-gray-100 text-sm font-semibold transition-all"
               style={{ fontFamily: "'DM Sans', sans-serif" }}>
               {t.cta}
               <ArrowRight size={14} />
@@ -725,35 +725,39 @@ function Navbar({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
           <div className="md:hidden flex items-center gap-2">
             <button
               onClick={() => setLangModal(true)}
-              className="flex items-center gap-1 px-2 py-1.5 rounded-lg border border-blue-500/20 text-slate-400 text-xs font-mono uppercase tracking-wider"
+              className={`flex items-center gap-1 px-2 py-1.5 rounded-lg border text-xs font-mono uppercase tracking-wider ${
+                scrolled ? "border-gray-200 text-gray-500" : "border-white/20 text-white/70"
+              }`}
               aria-label="Change language"
             >
               <Globe size={12} />
               {lang}
             </button>
-            <button className="text-slate-300 hover:text-white p-1" onClick={() => setOpen(!open)} aria-label="Toggle menu">
+            <button
+              className={`p-1 ${scrolled ? "text-gray-700" : "text-white"}`}
+              onClick={() => setOpen(!open)} aria-label="Toggle menu">
               {open ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </nav>
 
         {open && (
-          <div className="md:hidden bg-[#071020]/98 backdrop-blur-xl border-t border-blue-500/10 px-6 py-6 flex flex-col gap-5">
+          <div className="md:hidden bg-white border-t border-gray-100 px-6 py-6 flex flex-col gap-5">
             {navItems.map((item) => (
               <a key={item.href} href={item.href} onClick={() => setOpen(false)}
-                className="text-slate-300 hover:text-white text-lg font-medium transition-colors"
+                className="text-gray-700 hover:text-gray-900 text-lg font-medium transition-colors"
                 style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 {item.label}
               </a>
             ))}
-            <div className="pt-4 border-t border-blue-500/10 flex flex-col gap-3">
+            <div className="pt-4 border-t border-gray-100 flex flex-col gap-3">
               <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 justify-center px-4 py-3 rounded-lg border border-blue-500/30 text-blue-400 font-semibold"
+                className="inline-flex items-center gap-2 justify-center px-4 py-3 rounded-lg border border-gray-200 text-gray-700 font-semibold"
                 onClick={() => setOpen(false)} style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 <MessageCircle size={16} /> Chat on WhatsApp
               </a>
               <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}
-                className="inline-flex items-center gap-2 justify-center px-4 py-3 rounded-lg bg-blue-600 text-white font-semibold"
+                className="inline-flex items-center gap-2 justify-center px-4 py-3 rounded-lg bg-gray-900 text-white font-semibold"
                 style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 {t.cta} <ArrowRight size={16} />
               </a>
@@ -776,16 +780,16 @@ function Section({ id, children, className = "" }: { id?: string; children: Reac
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/25 bg-blue-500/8 mb-4">
-      <span className="w-1 h-1 rounded-full bg-blue-400" />
-      <span className="text-blue-400 text-xs font-mono tracking-widest uppercase">{children}</span>
+    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-gray-100 mb-4">
+      <span className="w-1 h-1 rounded-full bg-gray-400" />
+      <span className="text-gray-500 text-xs font-mono tracking-widest uppercase">{children}</span>
     </div>
   );
 }
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight tracking-tight"
+    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight tracking-tight"
       style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
       {children}
     </h2>
@@ -795,38 +799,38 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 // ─── Dashboard mockup (static, no i18n needed) ────────────────────────────────
 function DashboardMockup() {
   return (
-    <div className="rounded-2xl border border-blue-500/20 bg-[#071020]/80 backdrop-blur-sm shadow-2xl shadow-blue-950/50 p-4"
+    <div className="rounded-2xl border border-gray-200 bg-white backdrop-blur-sm shadow-2xl shadow-gray-200 p-4"
       style={{ fontFamily: "'JetBrains Mono', monospace" }}>
       <div className="flex items-center gap-1.5 mb-4">
         <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
         <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
         <div className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
-        <div className="ml-auto text-[10px] text-slate-500 font-mono">AI Dashboard</div>
+        <div className="ml-auto text-[10px] text-gray-400 font-mono">AI Dashboard</div>
       </div>
       <div className="grid grid-cols-3 gap-2 mb-3">
         {[{ label: "Leads", value: "1,284" }, { label: "Automation", value: "94%" }, { label: "Response", value: "< 2min" }].map((kpi) => (
-          <div key={kpi.label} className="bg-[#0c1a30] rounded-lg p-2.5">
-            <div className="text-[10px] text-slate-500">{kpi.label}</div>
-            <div className="text-sm font-bold text-blue-300 mt-0.5">{kpi.value}</div>
+          <div key={kpi.label} className="bg-gray-100 rounded-lg p-2.5">
+            <div className="text-[10px] text-gray-400">{kpi.label}</div>
+            <div className="text-sm font-bold text-gray-600 mt-0.5">{kpi.value}</div>
             <div className="text-[9px] text-green-400 mt-0.5">↑ Active</div>
           </div>
         ))}
       </div>
-      <div className="bg-[#0c1a30] rounded-lg p-3 mb-3">
-        <div className="text-[10px] text-slate-500 mb-2">Sales Pipeline</div>
+      <div className="bg-gray-100 rounded-lg p-3 mb-3">
+        <div className="text-[10px] text-gray-400 mb-2">Sales Pipeline</div>
         <div className="flex items-end gap-1 h-14">
           {[40, 65, 45, 80, 55, 90, 70, 95, 60, 85, 75, 100].map((h, i) => (
             <div key={i} className="flex-1 rounded-sm" style={{ height: `${h}%`, background: `rgba(59,130,246,${0.3 + (h / 100) * 0.6})` }} />
           ))}
         </div>
       </div>
-      <div className="bg-[#0c1a30] rounded-lg p-3">
-        <div className="text-[10px] text-slate-500 mb-2">AI Workflow — Active</div>
+      <div className="bg-gray-100 rounded-lg p-3">
+        <div className="text-[10px] text-gray-400 mb-2">AI Workflow — Active</div>
         <div className="space-y-1.5">
           {[{ label: "Lead captured", status: "done" }, { label: "AI qualification", status: "done" }, { label: "WhatsApp follow-up", status: "active" }, { label: "CRM update", status: "pending" }].map((step) => (
             <div key={step.label} className="flex items-center gap-2">
               <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${step.status === "done" ? "bg-green-400" : step.status === "active" ? "bg-blue-400 animate-pulse" : "bg-slate-600"}`} />
-              <span className="text-[10px] text-slate-400">{step.label}</span>
+              <span className="text-[10px] text-gray-500">{step.label}</span>
               {step.status === "done" && <span className="ml-auto text-[9px] text-green-400">✓</span>}
             </div>
           ))}
@@ -840,52 +844,50 @@ function DashboardMockup() {
 function Hero({ lang }: { lang: Lang }) {
   const t = translations[lang].hero;
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-[#030b18]">
+    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-gray-950">
       <HeroBackground />
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-blue-700/10 blur-[120px] pointer-events-none" />
-      <div className="absolute top-2/3 left-1/4 w-[300px] h-[300px] rounded-full bg-cyan-600/8 blur-[80px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-20 lg:pt-40 lg:pb-28">
         <div className="grid lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-12 xl:gap-16 items-center">
         <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-            <span className="text-blue-300 text-xs font-mono tracking-widest uppercase">{t.badge}</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/15 mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-white/60 animate-pulse" />
+            <span className="text-white/60 text-xs font-mono tracking-widest uppercase">{t.badge}</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight mb-6"
             style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
             {t.headline1}{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-300">
+            <span className="text-white/70">
               {t.headline2}
             </span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-slate-400 leading-relaxed max-w-2xl mb-10"
+          <p className="text-lg sm:text-xl text-white/50 leading-relaxed max-w-2xl mb-10"
             style={{ fontFamily: "'DM Sans', sans-serif" }}>
             {t.sub}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-base transition-all duration-200 shadow-xl shadow-blue-600/25 hover:shadow-blue-500/30 hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-white hover:bg-gray-100 text-gray-900 font-semibold text-base transition-all duration-200 hover:-translate-y-0.5"
               style={{ fontFamily: "'DM Sans', sans-serif" }}>
               {t.cta1}
               <ArrowRight size={18} />
             </a>
           </div>
 
-          <div className="mt-16 pt-10 border-t border-blue-500/10 grid grid-cols-3 gap-8 max-w-lg">
+          <div className="mt-16 pt-10 border-t border-white/10 grid grid-cols-3 gap-8 max-w-lg">
             {[
               { value: t.stat1v, label: t.stat1l },
               { value: t.stat2v, label: t.stat2l },
               { value: t.stat3v, label: t.stat3l },
             ].map((stat) => (
               <div key={stat.label}>
-                <div className="text-2xl font-bold text-blue-400" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
+                <div className="text-2xl font-bold text-white" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
                   {stat.value}
                 </div>
-                <div className="text-xs text-slate-500 mt-0.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                <div className="text-xs text-white/40 mt-0.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                   {stat.label}
                 </div>
               </div>
@@ -893,7 +895,7 @@ function Hero({ lang }: { lang: Lang }) {
           </div>
         </div>
 
-        <div className="hidden lg:block w-[380px] opacity-75">
+        <div className="hidden lg:block w-[380px] opacity-60">
           <DashboardMockup />
         </div>
         </div>
@@ -906,13 +908,13 @@ function Hero({ lang }: { lang: Lang }) {
 function About({ lang }: { lang: Lang }) {
   const t = translations[lang].about;
   return (
-    <Section id="about" className="bg-[#030b18]">
+    <Section id="about" className="bg-white">
       <div className="grid lg:grid-cols-2 gap-16 items-center">
         <div>
           <div className="flex items-center gap-5 mb-8">
             <div className="relative flex-shrink-0">
               <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-blue-500/40 to-cyan-500/20 blur-sm" />
-              <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-blue-500/30 bg-[#071020]">
+              <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-gray-300 bg-white">
                 <img
                   src={saraPhoto}
                   alt="Sara Ibáñez"
@@ -925,24 +927,24 @@ function About({ lang }: { lang: Lang }) {
               <div className="text-white font-semibold text-lg" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
                 Sara Ibáñez
               </div>
-              <div className="text-blue-400 text-sm font-mono">{translations[lang].nav.about === "About" ? "Software & AI Consultant" : "Consultora de Software e IA"}</div>
+              <div className="text-gray-700 text-sm font-mono">{translations[lang].nav.about === "About" ? "Software & AI Consultant" : "Consultora de Software e IA"}</div>
             </div>
           </div>
           <SectionLabel>{translations[lang].nav.about === "About" ? "About Sara" : t.label}</SectionLabel>
           <SectionHeading>
             {t.title1}{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+            <span className="text-gray-900">
               {t.title2}
             </span>
           </SectionHeading>
-          <p className="text-slate-400 text-lg leading-relaxed mt-6 mb-8" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+          <p className="text-gray-500 text-lg leading-relaxed mt-6 mb-8" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             {t.body}
           </p>
           <div className="grid grid-cols-2 gap-4">
             {t.skills.map((skill) => (
               <div key={skill} className="flex items-start gap-2">
-                <Check size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
-                <span className="text-slate-300 text-sm" style={{ fontFamily: "'DM Sans', sans-serif" }}>{skill}</span>
+                <Check size={16} className="text-gray-700 mt-0.5 flex-shrink-0" />
+                <span className="text-gray-600 text-sm" style={{ fontFamily: "'DM Sans', sans-serif" }}>{skill}</span>
               </div>
             ))}
           </div>
@@ -950,25 +952,25 @@ function About({ lang }: { lang: Lang }) {
 
         <div className="relative">
           <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-blue-500/20 to-cyan-500/10 blur-sm" />
-          <div className="relative rounded-2xl border border-blue-500/20 bg-[#071020] p-8">
-            <div className="flex items-center gap-3 mb-6 pb-6 border-b border-blue-500/10">
-              <div className="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center">
-                <Layers size={18} className="text-blue-400" />
+          <div className="relative rounded-2xl border border-gray-200 bg-white p-8">
+            <div className="flex items-center gap-3 mb-6 pb-6 border-b border-gray-100">
+              <div className="w-10 h-10 rounded-xl bg-gray-100 border border-gray-300 flex items-center justify-center">
+                <Layers size={18} className="text-gray-700" />
               </div>
               <div>
                 <div className="text-white font-semibold" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
                   Clean &amp; Shiny
                 </div>
-                <div className="text-xs text-blue-400 font-mono">{t.caseLabel}</div>
+                <div className="text-xs text-gray-700 font-mono">{t.caseLabel}</div>
               </div>
               <div className="ml-auto px-2 py-1 rounded-md bg-green-500/10 border border-green-500/20">
                 <span className="text-green-400 text-xs font-mono">{t.caseLive}</span>
               </div>
             </div>
-            <div className="space-y-3 mb-6 max-h-52 overflow-y-auto pr-1" style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(59,130,246,0.2) transparent" }}>
+            <div className="space-y-3 mb-6 max-h-52 overflow-y-auto pr-1" style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(0,0,0,0.15) transparent" }}>
               {t.caseParagraphs.map((para, i) => (
                 <p key={i}
-                  className={`text-sm leading-relaxed ${i === 0 ? "text-slate-200 font-medium" : "text-slate-400"}`}
+                  className={`text-sm leading-relaxed ${i === 0 ? "text-gray-700 font-medium" : "text-gray-500"}`}
                   style={{ fontFamily: "'DM Sans', sans-serif" }}>
                   {para}
                 </p>
@@ -980,10 +982,10 @@ function About({ lang }: { lang: Lang }) {
                 { icon: TrendingUp, label: t.metric2l, value: t.metric2v },
                 { icon: RefreshCw, label: t.metric3l, value: t.metric3v },
               ].map(({ icon: Icon, label, value }) => (
-                <div key={label} className="bg-[#0c1a30] rounded-lg p-3 text-center">
-                  <Icon size={16} className="text-blue-400 mx-auto mb-1" />
+                <div key={label} className="bg-gray-100 rounded-lg p-3 text-center">
+                  <Icon size={16} className="text-gray-700 mx-auto mb-1" />
                   <div className="text-white text-xs font-semibold" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>{value}</div>
-                  <div className="text-slate-500 text-[10px] mt-0.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>{label}</div>
+                  <div className="text-gray-400 text-[10px] mt-0.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>{label}</div>
                 </div>
               ))}
             </div>
@@ -998,23 +1000,23 @@ function About({ lang }: { lang: Lang }) {
 const serviceIcons = [Code2, Bot, BarChart3, Globe];
 const serviceColors = ["blue", "cyan", "violet", "indigo"];
 const colorMap: Record<string, { border: string; bg: string; icon: string; glow: string }> = {
-  blue: { border: "border-blue-500/20", bg: "bg-blue-500/8", icon: "text-blue-400", glow: "from-blue-500/10" },
-  cyan: { border: "border-cyan-500/20", bg: "bg-cyan-500/8", icon: "text-cyan-400", glow: "from-cyan-500/10" },
-  violet: { border: "border-violet-500/20", bg: "bg-violet-500/8", icon: "text-violet-400", glow: "from-violet-500/10" },
-  indigo: { border: "border-indigo-500/20", bg: "bg-indigo-500/8", icon: "text-indigo-400", glow: "from-indigo-500/10" },
+  blue: { border: "border-gray-200", bg: "bg-gray-100", icon: "text-gray-700", glow: "from-blue-500/10" },
+  cyan: { border: "border-cyan-500/20", bg: "bg-cyan-500/8", icon: "text-gray-700", glow: "from-cyan-500/10" },
+  violet: { border: "border-violet-500/20", bg: "bg-violet-500/8", icon: "text-gray-700", glow: "from-violet-500/10" },
+  indigo: { border: "border-indigo-500/20", bg: "bg-indigo-500/8", icon: "text-gray-700", glow: "from-indigo-500/10" },
 };
 
 function Services({ lang }: { lang: Lang }) {
   const t = translations[lang].services;
   return (
-    <Section id="services" className="bg-[#050e1c]">
+    <Section id="services" className="bg-gray-50">
       <div className="text-center max-w-2xl mx-auto mb-16">
         <SectionLabel>{t.label}</SectionLabel>
         <SectionHeading>
           {t.title1}{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">{t.title2}</span>
+          <span className="text-gray-900">{t.title2}</span>
         </SectionHeading>
-        <p className="text-slate-400 text-lg mt-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
+        <p className="text-gray-500 text-lg mt-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
       </div>
       <div className="grid md:grid-cols-2 gap-6">
         {t.items.map((service, idx) => {
@@ -1022,17 +1024,17 @@ function Services({ lang }: { lang: Lang }) {
           const Icon = serviceIcons[idx];
           return (
             <div key={service.title}
-              className={`group relative rounded-2xl border ${c.border} bg-[#071020] p-8 hover:bg-[#0a1628] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-950/40`}>
+              className={`group relative rounded-2xl border ${c.border} bg-white p-8 hover:bg-gray-50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-gray-200`}>
               <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${c.glow} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
               <div className="relative">
                 <div className={`w-12 h-12 rounded-xl ${c.bg} border ${c.border} flex items-center justify-center mb-5`}>
                   <Icon size={22} className={c.icon} />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>{service.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-5" style={{ fontFamily: "'DM Sans', sans-serif" }}>{service.description}</p>
+                <p className="text-gray-500 text-sm leading-relaxed mb-5" style={{ fontFamily: "'DM Sans', sans-serif" }}>{service.description}</p>
                 <ul className="space-y-2">
                   {service.items.map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-slate-300 text-sm" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                    <li key={item} className="flex items-center gap-2 text-gray-600 text-sm" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                       <ChevronRight size={14} className={c.icon} />
                       {item}
                     </li>
@@ -1053,30 +1055,30 @@ const benefitIcons = [Clock, Zap, TrendingUp, DollarSign, Layers, Eye];
 function Benefits({ lang }: { lang: Lang }) {
   const t = translations[lang].benefits;
   return (
-    <Section className="bg-[#030b18] relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-blue-700/8 blur-[100px] pointer-events-none" />
+    <Section className="bg-white relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-transparent blur-[100px] pointer-events-none" />
       <div className="relative text-center max-w-2xl mx-auto mb-16">
         <SectionLabel>{t.label}</SectionLabel>
         <SectionHeading>
           {t.title1}{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">{t.title2}</span>
+          <span className="text-gray-900">{t.title2}</span>
         </SectionHeading>
-        <p className="text-slate-400 text-lg mt-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
+        <p className="text-gray-500 text-lg mt-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
       </div>
       <div className="relative grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {t.items.map(({ text, metric }, idx) => {
           const Icon = benefitIcons[idx];
           return (
             <div key={metric}
-              className="group flex flex-col gap-4 rounded-2xl border border-blue-500/12 bg-[#071020] p-6 hover:border-blue-500/25 hover:bg-[#0a1628] transition-all duration-300">
+              className="group flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 hover:border-gray-200 hover:bg-gray-50 transition-all duration-300">
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
-                  <Icon size={18} className="text-blue-400" />
+                <div className="w-10 h-10 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center flex-shrink-0">
+                  <Icon size={18} className="text-gray-700" />
                 </div>
-                <p className="text-slate-300 text-sm leading-relaxed pt-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>{text}</p>
+                <p className="text-gray-600 text-sm leading-relaxed pt-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>{text}</p>
               </div>
               <div className="ml-14">
-                <span className="text-[10px] font-mono text-blue-400/70 tracking-widest uppercase px-2 py-0.5 rounded bg-blue-500/8 border border-blue-500/15">
+                <span className="text-[10px] font-mono text-gray-700/70 tracking-widest uppercase px-2 py-0.5 rounded bg-gray-100 border border-gray-200">
                   {metric}
                 </span>
               </div>
@@ -1094,14 +1096,14 @@ const processIcons = [Search, PenTool, Code2, Rocket];
 function Process({ lang }: { lang: Lang }) {
   const t = translations[lang].process;
   return (
-    <Section id="process" className="bg-[#050e1c]">
+    <Section id="process" className="bg-gray-50">
       <div className="text-center max-w-2xl mx-auto mb-16">
         <SectionLabel>{t.label}</SectionLabel>
         <SectionHeading>
           {t.title1}{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">{t.title2}</span>
+          <span className="text-gray-900">{t.title2}</span>
         </SectionHeading>
-        <p className="text-slate-400 text-lg mt-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
+        <p className="text-gray-500 text-lg mt-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
       </div>
       <div className="relative">
         <div className="hidden lg:block absolute top-10 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
@@ -1112,15 +1114,15 @@ function Process({ lang }: { lang: Lang }) {
             return (
               <div key={title} className="relative group">
                 <div className="flex flex-col items-start mb-5">
-                  <div className="relative z-10 w-16 h-16 rounded-2xl border border-blue-500/25 bg-[#071020] group-hover:bg-blue-600/10 flex items-center justify-center mb-3 transition-colors duration-300">
-                    <Icon size={24} className="text-blue-400" />
+                  <div className="relative z-10 w-16 h-16 rounded-2xl border border-gray-200 bg-white group-hover:bg-gray-100 flex items-center justify-center mb-3 transition-colors duration-300">
+                    <Icon size={24} className="text-gray-700" />
                   </div>
-                  <span className="text-xs font-mono text-blue-500/60 tracking-widest">
+                  <span className="text-xs font-mono text-gray-400 tracking-widest">
                     {t.step} {num}
                   </span>
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>{title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>{desc}</p>
+                <p className="text-gray-500 text-sm leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>{desc}</p>
               </div>
             );
           })}
@@ -1134,28 +1136,28 @@ function Process({ lang }: { lang: Lang }) {
 function Testimonials({ lang }: { lang: Lang }) {
   const t = translations[lang].testimonials;
   return (
-    <Section className="bg-[#030b18]">
+    <Section className="bg-white">
       <div className="text-center max-w-2xl mx-auto mb-16">
         <SectionLabel>{t.label}</SectionLabel>
         <SectionHeading>
           {t.title1}{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">{t.title2}</span>
+          <span className="text-gray-900">{t.title2}</span>
         </SectionHeading>
-        <p className="text-slate-400 text-lg mt-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
+        <p className="text-gray-500 text-lg mt-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
       </div>
       <div className="grid md:grid-cols-3 gap-6">
         {t.items.map((item) => (
           <div key={item.name}
-            className="rounded-2xl border border-blue-500/15 bg-[#071020] p-7 flex flex-col gap-5 hover:border-blue-500/25 hover:bg-[#0a1628] transition-all duration-300">
+            className="rounded-2xl border border-gray-200 bg-white p-7 flex flex-col gap-5 hover:border-gray-200 hover:bg-gray-50 transition-all duration-300">
             <div className="flex gap-0.5">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star key={i} size={14} className="text-yellow-400 fill-yellow-400" />
               ))}
             </div>
-            <p className="text-slate-300 text-sm leading-relaxed flex-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+            <p className="text-gray-600 text-sm leading-relaxed flex-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
               "{item.body}"
             </p>
-            <div className="flex items-center gap-3 pt-4 border-t border-blue-500/10">
+            <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
               <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center">
                 <span className="text-white text-xs font-bold" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
                   {item.name[0]}
@@ -1163,13 +1165,13 @@ function Testimonials({ lang }: { lang: Lang }) {
               </div>
               <div>
                 <div className="text-white text-sm font-semibold" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>{item.name}</div>
-                <div className="text-slate-500 text-xs" style={{ fontFamily: "'DM Sans', sans-serif" }}>{item.role}</div>
+                <div className="text-gray-400 text-xs" style={{ fontFamily: "'DM Sans', sans-serif" }}>{item.role}</div>
               </div>
             </div>
           </div>
         ))}
       </div>
-      <p className="text-center text-slate-600 text-xs mt-8" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      <p className="text-center text-gray-400 text-xs mt-8" style={{ fontFamily: "'DM Sans', sans-serif" }}>
         {t.disclaimer}
       </p>
     </Section>
@@ -1188,26 +1190,26 @@ const portfolioIconMap: Record<string, React.FC<{ size: number; className: strin
 function Portfolio({ lang }: { lang: Lang }) {
   const t = translations[lang].portfolio;
   return (
-    <Section id="portfolio" className="bg-[#030b18]">
+    <Section id="portfolio" className="bg-gray-50">
       <div className="text-center max-w-2xl mx-auto mb-16">
         <SectionLabel>{t.label}</SectionLabel>
         <SectionHeading>
           {t.title1}{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">{t.title2}</span>
+          <span className="text-gray-900">{t.title2}</span>
         </SectionHeading>
-        <p className="text-slate-400 text-lg mt-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
+        <p className="text-gray-500 text-lg mt-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
         {t.items.map((project, idx) => {
           const Icon = portfolioIconMap[project.icon] ?? Monitor;
           const glows = ["from-blue-500/10", "from-cyan-500/10", "from-violet-500/10"];
-          const borders = ["border-blue-500/20", "border-cyan-500/20", "border-violet-500/20"];
-          const icons = ["text-blue-400", "text-cyan-400", "text-violet-400"];
-          const bgs = ["bg-blue-500/8", "bg-cyan-500/8", "bg-violet-500/8"];
+          const borders = ["border-gray-200", "border-cyan-500/20", "border-violet-500/20"];
+          const icons = ["text-gray-700", "text-gray-700", "text-gray-700"];
+          const bgs = ["bg-gray-100", "bg-cyan-500/8", "bg-violet-500/8"];
           return (
             <div key={project.title}
-              className={`group relative rounded-2xl border ${borders[idx]} bg-[#071020] p-7 flex flex-col hover:bg-[#0a1628] hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:shadow-blue-950/40`}>
+              className={`group relative rounded-2xl border ${borders[idx]} bg-white p-7 flex flex-col hover:bg-gray-50 hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:shadow-gray-200`}>
               <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${glows[idx]} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
               <div className="relative flex flex-col flex-1">
                 {/* Header */}
@@ -1223,7 +1225,7 @@ function Portfolio({ lang }: { lang: Lang }) {
                 <h3 className="text-lg font-bold text-white mb-2" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
                   {project.title}
                 </h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-5" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                <p className="text-gray-500 text-sm leading-relaxed mb-5" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                   {project.desc}
                 </p>
 
@@ -1238,9 +1240,9 @@ function Portfolio({ lang }: { lang: Lang }) {
                 </div>
 
                 {/* Stack */}
-                <div className="pt-4 border-t border-blue-500/10 flex flex-wrap gap-1.5 mb-4">
+                <div className="pt-4 border-t border-gray-100 flex flex-wrap gap-1.5 mb-4">
                   {project.stack.map((tech) => (
-                    <span key={tech} className="text-[10px] px-2 py-0.5 rounded bg-[#0c1a30] border border-blue-500/15 text-slate-400 font-mono">
+                    <span key={tech} className="text-[10px] px-2 py-0.5 rounded bg-gray-100 border border-gray-200 text-gray-500 font-mono">
                       {tech}
                     </span>
                   ))}
@@ -1314,10 +1316,10 @@ function ContactForm({ lang }: { lang: Lang }) {
         <h3 className="text-white text-xl font-bold mb-2" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
           {tf.successTitle}
         </h3>
-        <p className="text-slate-400 text-sm" style={{ fontFamily: "'DM Sans', sans-serif" }}>{tf.successBody}</p>
+        <p className="text-gray-500 text-sm" style={{ fontFamily: "'DM Sans', sans-serif" }}>{tf.successBody}</p>
         <button
           onClick={() => setFormState("idle")}
-          className="mt-6 text-blue-400 text-sm underline underline-offset-2 hover:text-blue-300 transition-colors"
+          className="mt-6 text-gray-700 text-sm underline underline-offset-2 hover:text-gray-600 transition-colors"
           style={{ fontFamily: "'DM Sans', sans-serif" }}>
           ← {lang === "en" ? "Send another" : "Enviar otro"}
         </button>
@@ -1326,7 +1328,7 @@ function ContactForm({ lang }: { lang: Lang }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-blue-500/20 bg-[#071020] p-8 flex flex-col gap-5">
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-gray-200 bg-white p-8 flex flex-col gap-5">
       {formState === "error" && (
         <div className="flex items-start gap-3 p-4 rounded-xl border border-red-500/25 bg-red-500/6">
           <AlertCircle size={18} className="text-red-400 flex-shrink-0 mt-0.5" />
@@ -1339,27 +1341,27 @@ function ContactForm({ lang }: { lang: Lang }) {
 
       <div className="grid sm:grid-cols-2 gap-5">
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-mono text-slate-500 tracking-widest uppercase">{tf.name}</label>
+          <label className="text-xs font-mono text-gray-400 tracking-widest uppercase">{tf.name}</label>
           <input
             type="text"
             name="name"
             required
             value={values.name}
             onChange={handleChange}
-            className="px-4 py-3 rounded-xl border border-blue-500/15 bg-[#0c1a30] text-white placeholder-slate-600 text-sm focus:outline-none focus:border-blue-500/40 focus:bg-[#0f2040] transition-all"
+            className="px-4 py-3 rounded-xl border border-gray-200 bg-gray-100 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-blue-500/40 focus:bg-gray-200 transition-all"
             style={{ fontFamily: "'DM Sans', sans-serif" }}
             placeholder="Sara Ibáñez"
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-mono text-slate-500 tracking-widest uppercase">{tf.email}</label>
+          <label className="text-xs font-mono text-gray-400 tracking-widest uppercase">{tf.email}</label>
           <input
             type="email"
             name="email"
             required
             value={values.email}
             onChange={handleChange}
-            className="px-4 py-3 rounded-xl border border-blue-500/15 bg-[#0c1a30] text-white placeholder-slate-600 text-sm focus:outline-none focus:border-blue-500/40 focus:bg-[#0f2040] transition-all"
+            className="px-4 py-3 rounded-xl border border-gray-200 bg-gray-100 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-blue-500/40 focus:bg-gray-200 transition-all"
             style={{ fontFamily: "'DM Sans', sans-serif" }}
             placeholder="sara@empresa.com"
           />
@@ -1367,27 +1369,27 @@ function ContactForm({ lang }: { lang: Lang }) {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-mono text-slate-500 tracking-widest uppercase">{tf.company}</label>
+        <label className="text-xs font-mono text-gray-400 tracking-widest uppercase">{tf.company}</label>
         <input
           type="text"
           name="company"
           value={values.company}
           onChange={handleChange}
-          className="px-4 py-3 rounded-xl border border-blue-500/15 bg-[#0c1a30] text-white placeholder-slate-600 text-sm focus:outline-none focus:border-blue-500/40 focus:bg-[#0f2040] transition-all"
+          className="px-4 py-3 rounded-xl border border-gray-200 bg-gray-100 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-blue-500/40 focus:bg-gray-200 transition-all"
           style={{ fontFamily: "'DM Sans', sans-serif" }}
           placeholder="Clean & Shiny"
         />
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-mono text-slate-500 tracking-widest uppercase">{tf.message}</label>
+        <label className="text-xs font-mono text-gray-400 tracking-widest uppercase">{tf.message}</label>
         <textarea
           name="message"
           required
           rows={5}
           value={values.message}
           onChange={handleChange}
-          className="px-4 py-3 rounded-xl border border-blue-500/15 bg-[#0c1a30] text-white placeholder-slate-600 text-sm focus:outline-none focus:border-blue-500/40 focus:bg-[#0f2040] transition-all resize-none"
+          className="px-4 py-3 rounded-xl border border-gray-200 bg-gray-100 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-blue-500/40 focus:bg-gray-200 transition-all resize-none"
           style={{ fontFamily: "'DM Sans', sans-serif" }}
           placeholder={lang === "en" ? "I need a CRM system that…" : "Necesito un sistema CRM que…"}
         />
@@ -1396,7 +1398,7 @@ function ContactForm({ lang }: { lang: Lang }) {
       <button
         type="submit"
         disabled={formState === "sending"}
-        className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg shadow-blue-600/20 hover:-translate-y-0.5"
+        className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gray-900 hover:bg-gray-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg shadow-gray-900/10 hover:-translate-y-0.5"
         style={{ fontFamily: "'DM Sans', sans-serif" }}>
         {formState === "sending" ? tf.sending : tf.submit}
         {formState !== "sending" && <Send size={15} />}
@@ -1408,16 +1410,16 @@ function ContactForm({ lang }: { lang: Lang }) {
 function Contact({ lang }: { lang: Lang }) {
   const t = translations[lang].contact;
   return (
-    <Section id="contact" className="bg-[#050e1c] relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-blue-700/10 blur-[120px] pointer-events-none" />
+    <Section id="contact" className="bg-gray-50 relative overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-transparent blur-[120px] pointer-events-none" />
       <div className="relative max-w-5xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <SectionLabel>{t.label}</SectionLabel>
           <SectionHeading>
             {t.title1}{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">{t.title2}</span>
+            <span className="text-gray-900">{t.title2}</span>
           </SectionHeading>
-          <p className="text-slate-400 text-lg mt-6 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
+          <p className="text-gray-500 text-lg mt-6 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
         </div>
 
         <div className="grid lg:grid-cols-[1fr_360px] gap-10 items-start">
@@ -1427,8 +1429,8 @@ function Contact({ lang }: { lang: Lang }) {
           {/* Right column */}
           <div className="flex flex-col gap-6">
             {/* WhatsApp CTA */}
-            <div className="rounded-2xl border border-green-500/20 bg-[#071020] p-6">
-              <p className="text-xs font-mono text-slate-500 tracking-widest uppercase mb-4">{t.form.orWhatsapp}</p>
+            <div className="rounded-2xl border border-green-500/20 bg-white p-6">
+              <p className="text-xs font-mono text-gray-400 tracking-widest uppercase mb-4">{t.form.orWhatsapp}</p>
               <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-3 px-5 py-3.5 rounded-xl border border-green-500/25 bg-green-500/8 hover:bg-green-500/15 text-green-400 font-semibold text-sm transition-all"
                 style={{ fontFamily: "'DM Sans', sans-serif" }}>
@@ -1437,7 +1439,7 @@ function Contact({ lang }: { lang: Lang }) {
                 <ExternalLink size={13} className="ml-auto opacity-60" />
               </a>
               <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
-                className="mt-3 inline-flex items-center justify-center w-full gap-2 px-5 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-all hover:-translate-y-0.5"
+                className="mt-3 inline-flex items-center justify-center w-full gap-2 px-5 py-3.5 rounded-xl bg-gray-900 hover:bg-gray-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5"
                 style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 {t.cta1}
                 <ArrowRight size={15} />
@@ -1447,7 +1449,7 @@ function Contact({ lang }: { lang: Lang }) {
             {/* Tags */}
             <div className="flex flex-wrap gap-2">
               {t.tags.map((tag) => (
-                <span key={tag} className="px-3 py-1 rounded-full border border-blue-500/15 bg-blue-500/6 text-slate-400 text-xs"
+                <span key={tag} className="px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-gray-500 text-xs"
                   style={{ fontFamily: "'DM Sans', sans-serif" }}>
                   {tag}
                 </span>
@@ -1472,21 +1474,21 @@ function Footer({ lang }: { lang: Lang }) {
     { label: nav.contact, href: "#contact" },
   ];
   return (
-    <footer className="bg-[#030b18] border-t border-blue-500/10 py-10">
+    <footer className="bg-gray-900 border-t border-gray-800 py-10">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-              <Cpu size={16} className="text-white" />
+            <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
+              <Cpu size={16} className="text-gray-900" />
             </div>
             <div>
               <div className="text-white font-bold text-sm" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>Sara Ibáñez</div>
-              <div className="text-slate-500 text-xs" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.tagline}</div>
+              <div className="text-gray-400 text-xs" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.tagline}</div>
             </div>
           </div>
           <div className="flex items-center gap-6">
             {navItems.map((item) => (
-              <a key={item.href} href={item.href} className="text-slate-500 hover:text-slate-300 text-sm transition-colors"
+              <a key={item.href} href={item.href} className="text-gray-400 hover:text-white text-sm transition-colors"
                 style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 {item.label}
               </a>
@@ -1499,7 +1501,7 @@ function Footer({ lang }: { lang: Lang }) {
             {WHATSAPP_DISPLAY}
           </a>
         </div>
-        <div className="mt-8 pt-6 border-t border-blue-500/8 text-center text-slate-600 text-xs"
+        <div className="mt-8 pt-6 border-t border-gray-800 text-center text-gray-500 text-xs"
           style={{ fontFamily: "'DM Sans', sans-serif" }}>
           © {new Date().getFullYear()} Sara Ibáñez. {t.rights}
         </div>
@@ -1513,13 +1515,13 @@ export default function App() {
   const [lang, setLang] = useState<Lang>("es");
 
   return (
-    <div className="min-h-screen bg-[#030b18] overflow-x-hidden">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       <style>{`
         html { scroll-behavior: smooth; }
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #030b18; }
-        ::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.25); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(59,130,246,0.4); }
+        ::-webkit-scrollbar-track { background: #f9fafb; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.3); }
         body { font-family: 'DM Sans', sans-serif; }
       `}</style>
       <Navbar lang={lang} setLang={setLang} />
