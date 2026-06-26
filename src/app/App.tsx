@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import emailjs from "@emailjs/browser";
 import {
   Menu,
   X,
@@ -35,9 +34,7 @@ import {
 } from "lucide-react";
 import saraPhoto from "../assets/sara.png";
 
-const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID ?? "service_sara";
-const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? "template_contact";
-const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY ?? "";
+const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY ?? "";
 
 const WHATSAPP_NUMBER = "573024662900";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
@@ -1263,20 +1260,25 @@ function ContactForm({ lang }: { lang: Lang }) {
     e.preventDefault();
     setFormState("sending");
     try {
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        {
-          from_name: values.name,
-          from_email: values.email,
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          name: values.name,
+          email: values.email,
           company: values.company,
           message: values.message,
-          to_email: "ibanezsara35@gmail.com",
-        },
-        EMAILJS_PUBLIC_KEY
-      );
-      setFormState("success");
-      setValues({ name: "", email: "", company: "", message: "" });
+          subject: `Nuevo contacto desde sara-ibanez.com — ${values.name}`,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setFormState("success");
+        setValues({ name: "", email: "", company: "", message: "" });
+      } else {
+        setFormState("error");
+      }
     } catch {
       setFormState("error");
     }
