@@ -1,5 +1,3 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../components/ui/card";
-import { Badge } from "../../../components/ui/badge";
 import { CheckCircle2 } from "lucide-react";
 
 export function Services() {
@@ -35,46 +33,54 @@ export function Services() {
   ];
 
   return (
-    <section id="servicios" className="py-20 bg-white">
+    <section id="servicios" className="py-20 bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl mb-4 text-gray-900">Servicios</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h2 className="text-4xl mb-4 text-white font-bold tracking-tight">Servicios</h2>
+          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
             Ofrezco diferentes modalidades de clases para adaptarme a tus necesidades y estilo de aprendizaje
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-6">
           {services.map((service, index) => (
-            <Card key={index} className={`relative ${service.highlighted ? 'border-blue-500 border-2 shadow-xl' : 'shadow-md'}`}>
+            <div key={index} className={`relative rounded-xl p-8 border transition-all ${
+              service.highlighted
+                ? 'bg-white text-gray-900 border-white'
+                : 'bg-white/5 text-white border-white/10 hover:bg-white/8'
+            }`}>
               {service.highlighted && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <Badge className="bg-blue-600 text-white px-4 py-1 text-sm">Más Popular</Badge>
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <span className="bg-gray-900 text-white text-xs font-semibold px-3 py-1 rounded-full border border-gray-700">
+                    Más Popular
+                  </span>
                 </div>
               )}
-              <CardHeader>
-                <CardTitle className="text-2xl text-gray-900">{service.title}</CardTitle>
-                <CardDescription className="text-base mt-2">{service.description}</CardDescription>
-                <div className="mt-4">
-                  <span className="text-3xl text-gray-900">{service.price}</span>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start">
-                      <CheckCircle2 className="h-5 w-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
+              <h3 className={`text-2xl font-bold mb-2 ${service.highlighted ? 'text-gray-900' : 'text-white'}`}>
+                {service.title}
+              </h3>
+              <p className={`text-sm mb-4 ${service.highlighted ? 'text-gray-600' : 'text-gray-400'}`}>
+                {service.description}
+              </p>
+              <div className="mb-6">
+                <span className={`text-3xl font-bold ${service.highlighted ? 'text-gray-900' : 'text-white'}`}>
+                  {service.price}
+                </span>
+              </div>
+              <ul className="space-y-3">
+                {service.features.map((feature, idx) => (
+                  <li key={idx} className="flex items-start gap-3">
+                    <CheckCircle2 className={`h-5 w-5 mt-0.5 flex-shrink-0 ${service.highlighted ? 'text-gray-900' : 'text-white/60'}`} />
+                    <span className={`text-sm ${service.highlighted ? 'text-gray-700' : 'text-gray-300'}`}>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-gray-600">* Primera clase de prueba gratuita de 30 minutos para conocernos y evaluar tu nivel</p>
+          <p className="text-gray-500 text-sm">* Primera clase de prueba gratuita de 30 minutos para conocernos y evaluar tu nivel</p>
         </div>
       </div>
     </section>
