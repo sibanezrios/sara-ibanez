@@ -245,8 +245,8 @@ const translations = {
         },
         {
           tag: "AI · Venture Capital",
-          title: "Dealflow Radar · Latin Leap VC",
-          desc: "Automated deal sourcing tool for Latin Leap VC: a daily Python pipeline that scans LATAM pre-seed startups, filters by investment thesis, and scores each one with Claude AI. Filterable Next.js dashboard with on-demand company analysis via Gemini. 36 thesis-matched deals surfaced out of 103 scanned.",
+          title: "Dealflow Radar",
+          desc: "Automated deal sourcing tool for a VC fund: a daily Python pipeline that scans pre-seed startups, filters by investment thesis, and scores each one with Claude AI. Filterable Next.js dashboard with on-demand company analysis via Gemini. 36 thesis-matched deals surfaced out of 103 scanned.",
           stack: ["Next.js", "Python", "Claude AI", "Gemini", "GitHub Actions"],
           icon: "bot",
           metrics: ["36/103 deals matched", "AI scoring with Claude", "Daily automated pipeline"],
@@ -439,8 +439,8 @@ const translations = {
         },
         {
           tag: "IA · Venture Capital",
-          title: "Dealflow Radar · Latin Leap VC",
-          desc: "Herramienta de deal sourcing automatizada para Latin Leap VC: pipeline Python diario que escanea startups LATAM en etapa pre-seed, las filtra por tesis de inversión y las puntúa con Claude IA. Dashboard filtrable en Next.js con análisis on-demand via Gemini. 36 deals relevantes identificados de 103 escaneados.",
+          title: "Dealflow Radar",
+          desc: "Herramienta de deal sourcing automatizada para un fondo de VC: pipeline Python diario que escanea startups en etapa pre-seed, las filtra por tesis de inversión y las puntúa con Claude IA. Dashboard filtrable en Next.js con análisis on-demand via Gemini. 36 deals relevantes identificados de 103 escaneados.",
           stack: ["Next.js", "Python", "Claude IA", "Gemini", "GitHub Actions"],
           icon: "bot",
           metrics: ["36/103 deals filtrados", "Scoring con Claude IA", "Pipeline diario automático"],
