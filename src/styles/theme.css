@@ -1,5 +1,28 @@
 @custom-variant dark (&:is(.dark *));
 
+/* Light-theme overrides for the profesor portfolio page */
+.profesor-theme {
+  --background: #ffffff;
+  --foreground: #111827;
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --popover: #ffffff;
+  --popover-foreground: #111827;
+  --primary: #1d4ed8;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #374151;
+  --muted: #f9fafb;
+  --muted-foreground: #6b7280;
+  --accent: #eff6ff;
+  --accent-foreground: #1d4ed8;
+  --border: #e5e7eb;
+  --input: #ffffff;
+  --input-background: #ffffff;
+  --ring: rgba(59, 130, 246, 0.4);
+  color-scheme: light;
+}
+
 :root {
   --font-size: 16px;
   --background: #030b18;
