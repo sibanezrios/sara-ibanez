@@ -9,7 +9,6 @@ import {
   Zap,
   Check,
   MessageCircle,
-  Star,
   ChevronRight,
   Globe,
   Cpu,
@@ -1030,7 +1029,7 @@ function Services({ lang }: { lang: Lang }) {
                 <div className={`w-12 h-12 rounded-xl ${c.bg} border ${c.border} flex items-center justify-center mb-5`}>
                   <Icon size={22} className={c.icon} />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>{service.title}</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>{service.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed mb-5" style={{ fontFamily: "'DM Sans', sans-serif" }}>{service.description}</p>
                 <ul className="space-y-2">
                   {service.items.map((item) => (
@@ -1132,52 +1131,6 @@ function Process({ lang }: { lang: Lang }) {
   );
 }
 
-// ─── Testimonials ─────────────────────────────────────────────────────────────
-function Testimonials({ lang }: { lang: Lang }) {
-  const t = translations[lang].testimonials;
-  return (
-    <Section className="bg-white">
-      <div className="text-center max-w-2xl mx-auto mb-16">
-        <SectionLabel>{t.label}</SectionLabel>
-        <SectionHeading>
-          {t.title1}{" "}
-          <span className="text-gray-900">{t.title2}</span>
-        </SectionHeading>
-        <p className="text-gray-500 text-lg mt-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>{t.sub}</p>
-      </div>
-      <div className="grid md:grid-cols-3 gap-6">
-        {t.items.map((item) => (
-          <div key={item.name}
-            className="rounded-2xl border border-gray-200 bg-white p-7 flex flex-col gap-5 hover:border-gray-200 hover:bg-gray-50 transition-all duration-300">
-            <div className="flex gap-0.5">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} size={14} className="text-yellow-400 fill-yellow-400" />
-              ))}
-            </div>
-            <p className="text-gray-600 text-sm leading-relaxed flex-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              "{item.body}"
-            </p>
-            <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center">
-                <span className="text-white text-xs font-bold" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
-                  {item.name[0]}
-                </span>
-              </div>
-              <div>
-                <div className="text-white text-sm font-semibold" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>{item.name}</div>
-                <div className="text-gray-400 text-xs" style={{ fontFamily: "'DM Sans', sans-serif" }}>{item.role}</div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <p className="text-center text-gray-400 text-xs mt-8" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-        {t.disclaimer}
-      </p>
-    </Section>
-  );
-}
-
 // ─── Portfolio ────────────────────────────────────────────────────────────────
 import { Link } from "react-router";
 
@@ -1222,7 +1175,7 @@ function Portfolio({ lang }: { lang: Lang }) {
                   </span>
                 </div>
 
-                <h3 className="text-lg font-bold text-white mb-2" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
+                <h3 className="text-lg font-bold text-gray-900 mb-2" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
                   {project.title}
                 </h3>
                 <p className="text-gray-500 text-sm leading-relaxed mb-5" style={{ fontFamily: "'DM Sans', sans-serif" }}>
@@ -1530,7 +1483,6 @@ export default function App() {
       <Services lang={lang} />
       <Benefits lang={lang} />
       <Process lang={lang} />
-      <Testimonials lang={lang} />
       <Portfolio lang={lang} />
       <Contact lang={lang} />
       <Footer lang={lang} />
