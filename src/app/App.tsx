@@ -233,6 +233,7 @@ const translations = {
       title1: "Real Projects,",
       title2: "Real Impact",
       sub: "A selection of digital products and platforms built from the ground up.",
+      viewProject: "View live project →",
       items: [
         {
           tag: "Platform · Automation",
@@ -241,6 +242,7 @@ const translations = {
           stack: ["React", "Node.js", "PostgreSQL", "WebSockets"],
           icon: "monitor",
           metrics: ["90% automation", "Real-time", "Uber-style logic"],
+          link: null,
         },
         {
           tag: "AI · CRM",
@@ -249,14 +251,16 @@ const translations = {
           stack: ["React", "Python", "OpenAI", "WhatsApp API"],
           icon: "bot",
           metrics: ["3× response rate", "AI-qualified leads", "Auto follow-up"],
+          link: null,
         },
         {
-          tag: "Web App · Healthcare",
-          title: "Patient Scheduling System",
-          desc: "Custom scheduling and patient management system for a healthcare clinic. Reduced administrative workload by 60%.",
-          stack: ["React", "Node.js", "PostgreSQL", "Calendar API"],
-          icon: "database",
-          metrics: ["60% less admin work", "HIPAA-aligned", "Mobile-ready"],
+          tag: "Web App · Education",
+          title: "German Teacher — Landing Page",
+          desc: "Full landing page for a certified German teacher: hero, about, 4 service tiers with pricing, and a contact form. Built with React, Vite, and Tailwind.",
+          stack: ["React", "Vite", "Tailwind", "shadcn/ui"],
+          icon: "monitor",
+          metrics: ["4 service tiers", "Contact form", "Responsive"],
+          link: "/portfolio/profesor",
         },
       ],
     },
@@ -423,6 +427,7 @@ const translations = {
       title1: "Proyectos Reales,",
       title2: "Impacto Real",
       sub: "Una selección de productos digitales y plataformas construidos desde cero.",
+      viewProject: "Ver proyecto en vivo →",
       items: [
         {
           tag: "Plataforma · Automatización",
@@ -431,6 +436,7 @@ const translations = {
           stack: ["React", "Node.js", "PostgreSQL", "WebSockets"],
           icon: "monitor",
           metrics: ["90% automatización", "Tiempo real", "Lógica estilo Uber"],
+          link: null,
         },
         {
           tag: "IA · CRM",
@@ -439,14 +445,16 @@ const translations = {
           stack: ["React", "Python", "OpenAI", "WhatsApp API"],
           icon: "bot",
           metrics: ["3× tasa de respuesta", "Leads calificados por IA", "Seguimiento automático"],
+          link: null,
         },
         {
-          tag: "App Web · Salud",
-          title: "Sistema de Agendamiento de Pacientes",
-          desc: "Sistema personalizado de agendamiento y gestión de pacientes para una clínica de salud. Redujo la carga administrativa en un 60%.",
-          stack: ["React", "Node.js", "PostgreSQL", "Calendar API"],
-          icon: "database",
-          metrics: ["60% menos trabajo admin", "Alineado con privacidad", "Mobile-ready"],
+          tag: "App Web · Educación",
+          title: "Profesor de Alemán — Landing Page",
+          desc: "Landing page completa para un profesor de alemán certificado: hero, sobre mí, 4 planes de servicio con precios y formulario de contacto. Construida con React, Vite y Tailwind.",
+          stack: ["React", "Vite", "Tailwind", "shadcn/ui"],
+          icon: "monitor",
+          metrics: ["4 planes de servicio", "Formulario de contacto", "Responsive"],
+          link: "/portfolio/profesor",
         },
       ],
     },
@@ -1169,6 +1177,8 @@ function Testimonials({ lang }: { lang: Lang }) {
 }
 
 // ─── Portfolio ────────────────────────────────────────────────────────────────
+import { Link } from "react-router";
+
 const portfolioIconMap: Record<string, React.FC<{ size: number; className: string }>> = {
   monitor: Monitor,
   bot: Bot,
@@ -1197,9 +1207,9 @@ function Portfolio({ lang }: { lang: Lang }) {
           const bgs = ["bg-blue-500/8", "bg-cyan-500/8", "bg-violet-500/8"];
           return (
             <div key={project.title}
-              className={`group relative rounded-2xl border ${borders[idx]} bg-[#071020] p-7 flex flex-col gap-5 hover:bg-[#0a1628] hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:shadow-blue-950/40`}>
+              className={`group relative rounded-2xl border ${borders[idx]} bg-[#071020] p-7 flex flex-col hover:bg-[#0a1628] hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:shadow-blue-950/40`}>
               <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${glows[idx]} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-              <div className="relative">
+              <div className="relative flex flex-col flex-1">
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className={`w-12 h-12 rounded-xl ${bgs[idx]} border ${borders[idx]} flex items-center justify-center`}>
@@ -1228,13 +1238,26 @@ function Portfolio({ lang }: { lang: Lang }) {
                 </div>
 
                 {/* Stack */}
-                <div className="pt-4 border-t border-blue-500/10 flex flex-wrap gap-1.5">
+                <div className="pt-4 border-t border-blue-500/10 flex flex-wrap gap-1.5 mb-4">
                   {project.stack.map((tech) => (
                     <span key={tech} className="text-[10px] px-2 py-0.5 rounded bg-[#0c1a30] border border-blue-500/15 text-slate-400 font-mono">
                       {tech}
                     </span>
                   ))}
                 </div>
+
+                {/* Live link */}
+                {project.link && (
+                  <div className="mt-auto pt-2">
+                    <Link
+                      to={project.link}
+                      className={`inline-flex items-center gap-1.5 text-xs font-semibold ${icons[idx]} hover:opacity-80 transition-opacity`}
+                      style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                      <ExternalLink size={12} />
+                      {t.viewProject}
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           );
