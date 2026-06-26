@@ -250,7 +250,7 @@ const translations = {
           stack: ["Next.js", "Python", "Claude AI", "Gemini", "GitHub Actions"],
           icon: "bot",
           metrics: ["36/103 deals matched", "AI scoring with Claude", "Daily automated pipeline"],
-          link: null,
+          link: "https://dealflow-radar-blond.vercel.app/",
         },
         {
           tag: "Ejemplo de Landing Page",
@@ -444,7 +444,7 @@ const translations = {
           stack: ["Next.js", "Python", "Claude IA", "Gemini", "GitHub Actions"],
           icon: "bot",
           metrics: ["36/103 deals filtrados", "Scoring con Claude IA", "Pipeline diario automático"],
-          link: null,
+          link: "https://dealflow-radar-blond.vercel.app/",
         },
         {
           tag: "Ejemplo de Landing Page",
@@ -1204,13 +1204,25 @@ function Portfolio({ lang }: { lang: Lang }) {
                 {/* Live link */}
                 {project.link && (
                   <div className="mt-auto pt-2">
-                    <Link
-                      to={project.link}
-                      className={`inline-flex items-center gap-1.5 text-xs font-semibold ${icons[idx]} hover:opacity-80 transition-opacity`}
-                      style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                      <ExternalLink size={12} />
-                      {t.viewProject}
-                    </Link>
+                    {project.link.startsWith("http") ? (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`inline-flex items-center gap-1.5 text-xs font-semibold ${icons[idx]} hover:opacity-80 transition-opacity`}
+                        style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                        <ExternalLink size={12} />
+                        {t.viewProject}
+                      </a>
+                    ) : (
+                      <Link
+                        to={project.link}
+                        className={`inline-flex items-center gap-1.5 text-xs font-semibold ${icons[idx]} hover:opacity-80 transition-opacity`}
+                        style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                        <ExternalLink size={12} />
+                        {t.viewProject}
+                      </Link>
+                    )}
                   </div>
                 )}
               </div>
