@@ -253,8 +253,8 @@ const translations = {
           link: null,
         },
         {
-          tag: "Web App · Education",
-          title: "German Teacher — Landing Page",
+          tag: "Ejemplo de Landing Page",
+          title: "Landing Page",
           desc: "Full landing page for a certified German teacher: hero, about, 4 service tiers with pricing, and a contact form. Built with React, Vite, and Tailwind.",
           stack: ["React", "Vite", "Tailwind", "shadcn/ui"],
           icon: "monitor",
@@ -447,8 +447,8 @@ const translations = {
           link: null,
         },
         {
-          tag: "App Web · Educación",
-          title: "Profesor de Alemán — Landing Page",
+          tag: "Ejemplo de Landing Page",
+          title: "Landing Page",
           desc: "Landing page completa para un profesor de alemán certificado: hero, sobre mí, 4 planes de servicio con precios y formulario de contacto. Construida con React, Vite y Tailwind.",
           stack: ["React", "Vite", "Tailwind", "shadcn/ui"],
           icon: "monitor",
