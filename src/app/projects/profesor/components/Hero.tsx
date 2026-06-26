@@ -7,7 +7,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_60%_40%,#3a3a3c_0%,#1c1c1e_70%)]" />
       <div className="absolute left-0 right-0 top-1/2 h-px bg-white/5" />
 
-      <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
+      <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-8 sm:px-6">
         <h1 className="text-5xl md:text-7xl mb-6 tracking-tight" style={{ fontFamily: "inherit" }}>
           Aprende Alemán
         </h1>
