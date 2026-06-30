@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink } from "lucide-react";
-import saraPhoto from "../assets/sara.webp";
 import salonImage from "../assets/salon.webp";
 import lehrerImage from "../assets/lehrer.webp";
 import medixImage from "../assets/medix.webp";
+import Experience from "./components/Experience";
 
 const projects = [
   {
@@ -36,7 +36,7 @@ const projects = [
   },
   {
     id: 4,
-    title: "Medix",
+    title: "Para Médicos",
     category: "DOCTOR LANDING PAGE",
     image: medixImage,
     href: "https://medix-landing-page.vercel.app",
@@ -129,7 +129,7 @@ export default function App() {
         <div className="w-1/3">SARA IBÁÑEZ</div>
         <div className="w-1/3 flex justify-center gap-8 hidden md:flex">
           <a href="#work" className="hover:opacity-60 transition-opacity">Work</a>
-          <a href="#about" className="hover:opacity-60 transition-opacity">About</a>
+          <a href="#experience" className="hover:opacity-60 transition-opacity">Experience</a>
           <a href="#contact" className="hover:opacity-60 transition-opacity">Contact</a>
         </div>
         <div className="w-1/3 text-right">©2026</div>
@@ -212,41 +212,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-32 px-6 md:px-12 border-t border-gray-900">
-        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-          >
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tighter leading-tight mb-8">
-              Hello there<br />I'm Sara
-            </h2>
-            <p className="text-sm md:text-base text-gray-400 leading-relaxed max-w-md font-light">
-              SPECIALIZING IN SOFTWARE AND AUTOMATION, I TRY TO BRING A DISTINCTIVE, ELEGANT FLAIR TO MY WORK. BLENDING MY TECHNICAL BACKGROUND WITH A KEEN EYE FOR CLEAN DESIGN. MY CREATIVE VISION SPANS VARIOUS MEDIUMS, CRAFTING COMPELLING DIGITAL EXPERIENCES THAT RESONATE WITH DIVERSE AUDIENCES AND LEAVE A LASTING IMPRESSION.
-            </p>
-          </motion.div>
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            className="w-full flex justify-center md:justify-end"
-          >
-            <div className="w-full max-w-xs md:max-w-sm aspect-[4/5] bg-[#1a1a1a] overflow-hidden">
-              <img
-                src={saraPhoto}
-                alt="Sara Ibáñez"
-                fetchPriority="high"
-                decoding="async"
-                className="w-full h-full object-cover transition-all duration-1000"
-              />
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* Experience Section */}
+      <Experience />
 
       {/* Footer / Contact */}
       <section id="contact" className="h-screen flex flex-col justify-between px-6 md:px-12 pt-32 pb-12 border-t border-gray-900">
