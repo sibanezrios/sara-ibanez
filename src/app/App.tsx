@@ -33,7 +33,7 @@ import {
   Scissors,
   Star,
 } from "lucide-react";
-import saraPhoto from "../assets/sara.png";
+import saraPhoto from "../assets/sara.jpeg";
 
 const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY ?? "";
 
