@@ -46,9 +46,11 @@ const projects = [
 
 export default function App() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [iframeLoading, setIframeLoading] = useState(false);
 
   const handleProjectClick = (href: string) => {
     if (href === "#" || href.startsWith("#")) return;
+    setIframeLoading(true);
     setPreviewUrl(href);
   };
 
@@ -93,11 +95,20 @@ export default function App() {
                   </button>
                 </div>
               </div>
-              <iframe 
-                src={previewUrl} 
-                className="w-full flex-1 bg-white"
-                title="Website Preview"
-              />
+              <div className="relative w-full flex-1">
+                {iframeLoading && (
+                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[#111] gap-4">
+                    <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                    <span className="text-[11px] uppercase tracking-widest text-gray-500">Loading preview...</span>
+                  </div>
+                )}
+                <iframe
+                  src={previewUrl}
+                  className="w-full h-full bg-white"
+                  title="Website Preview"
+                  onLoad={() => setIframeLoading(false)}
+                />
+              </div>
             </div>
           </motion.div>
         )}
