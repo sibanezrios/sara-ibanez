@@ -4,6 +4,7 @@ import { X, ExternalLink } from "lucide-react";
 import saraPhoto from "../assets/sara.webp";
 import salonImage from "../assets/salon.webp";
 import lehrerImage from "../assets/lehrer.webp";
+import medixImage from "../assets/medix.webp";
 
 const projects = [
   {
@@ -35,6 +36,15 @@ const projects = [
   },
   {
     id: 4,
+    title: "Medix",
+    category: "DOCTOR LANDING PAGE",
+    image: medixImage,
+    href: "https://medix-landing-page.vercel.app",
+    aspectRatio: "aspect-[4/5]",
+    marginTop: "mt-0",
+  },
+  {
+    id: 5,
     title: "AI CRM System",
     category: "WHATSAPP AUTOMATION",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800",
