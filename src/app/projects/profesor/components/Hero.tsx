@@ -1,5 +1,5 @@
 import { Button } from "../../../components/ui/button";
-import { Mail } from "lucide-react";
+import { Mail, ExternalLink } from "lucide-react";
 
 export function Hero() {
   return (
@@ -26,6 +26,13 @@ export function Hero() {
             onClick={() => document.getElementById('sobre-mi')?.scrollIntoView({ behavior: 'smooth' })}>
             Conocer más
           </Button>
+          <a href="https://lehrer-platform.vercel.app/" target="_blank" rel="noopener noreferrer">
+            <Button size="lg"
+              className="bg-transparent border border-white/40 text-white/80 hover:border-white hover:text-white hover:bg-white/10 transition-all duration-200">
+              <ExternalLink className="mr-2 h-5 w-5" />
+              Ver sitio web
+            </Button>
+          </a>
         </div>
       </div>
     </section>
