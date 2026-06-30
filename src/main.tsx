@@ -2,13 +2,16 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router";
 import App from "./app/App.tsx";
 import ProfesorPage from "./app/projects/profesor/ProfesorPage.tsx";
+import { LangProvider } from "./app/i18n/LangContext.tsx";
 import "./styles/index.css";
 
 createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />} />
-      <Route path="/portfolio/profesor" element={<ProfesorPage />} />
-    </Routes>
-  </BrowserRouter>
+  <LangProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/portfolio/profesor" element={<ProfesorPage />} />
+      </Routes>
+    </BrowserRouter>
+  </LangProvider>
 );
