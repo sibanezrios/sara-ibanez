@@ -20,7 +20,7 @@ const projects = [
     title: "Lehrer Platform",
     category: "EDUCATIONAL PAGE",
     image: lehrerImage,
-    href: "#lehrer",
+    href: "https://lehrer-platform.vercel.app",
     aspectRatio: "aspect-[4/5]",
     marginTop: "mt-32",
   },
