@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink } from "lucide-react";
-import saraPhoto from "../assets/sara.jpeg";
-import salonImage from "../assets/salon.jpg";
-import lehrerImage from "../assets/lehrer.jpg";
+import saraPhoto from "../assets/sara.webp";
+import salonImage from "../assets/salon.webp";
+import lehrerImage from "../assets/lehrer.webp";
 
 const projects = [
   {
@@ -161,9 +161,11 @@ export default function App() {
               onClick={() => handleProjectClick(project.href)}
             >
               <div className={`relative w-full overflow-hidden bg-[#1a1a1a] ${project.aspectRatio}`}>
-                <img 
-                  src={project.image} 
+                <img
+                  src={project.image}
                   alt={project.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -213,9 +215,11 @@ export default function App() {
             className="w-full flex justify-center md:justify-end"
           >
             <div className="w-full max-w-xs md:max-w-sm aspect-[4/5] bg-[#1a1a1a] overflow-hidden">
-              <img 
-                src={saraPhoto} 
-                alt="Sara Ibáñez" 
+              <img
+                src={saraPhoto}
+                alt="Sara Ibáñez"
+                fetchPriority="high"
+                decoding="async"
                 className="w-full h-full object-cover transition-all duration-1000"
               />
             </div>
